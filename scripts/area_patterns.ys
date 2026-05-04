@@ -1,0 +1,12 @@
+read_verilog -sv src/alu.sv
+read_verilog -sv src/pe.sv
+read_verilog -sv src/pe_array_mesh.sv
+read_verilog -sv src/area_bench_top.sv
+
+hierarchy -top area_bench_top
+proc
+flatten
+opt
+techmap
+opt
+stat

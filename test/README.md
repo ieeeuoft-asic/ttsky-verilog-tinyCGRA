@@ -16,6 +16,13 @@ To run the RTL simulation:
 make -B
 ```
 
+The default cocotb test now exercises a simple mapping flow:
+
+1. define a hand-written PE placement in `cgra_model.py`
+2. encode that placement into a 24-bit bitstream
+3. build a software golden cycle trace
+4. compare every DUT PE output against that trace
+
 To run gatelevel simulation, first harden your project and copy `../runs/wokwi/results/final/verilog/gl/{your_module_name}.v` to `gate_level_netlist.v`.
 
 Then run:
