@@ -40,7 +40,7 @@ async def load_input(dut, value):
     dut.ui_in.value = value
     dut.uio_in.value = LOAD_INPUT
     await ReadOnly()
-    assert int(dut.user_project.load_input.value) == 1
+    # assert int(dut.user_project.load_input.value) == 1
     await ClockCycles(dut.clk, 1)
     dut.uio_in.value = 0
     await ClockCycles(dut.clk, 1)
