@@ -21,8 +21,7 @@ PE_SELECT = {"pe00": 0b00, "pe01": 0b01, "pe10": 0b10, "pe11": 0b11}
 async def shift_payload(dut, payload, total_bits):
     for bit_idx in range(total_bits):
         dut.ui_in.value = 0
-        # Change shifting to MSB first
-        dut.uio_in.value = CFG_MODE | (1 << 1) | (((payload >> (total_bits - 1 - bit_idx)) & 1) << 0)
+        dut.uio_in.value = CFG_MODE | (1 << 1) | (((payload >> bit_idx) & 1) << 0)
         await ReadOnly()
         assert int(dut.uio_oe.value) == 0
         await ClockCycles(dut.clk, 1)
@@ -57,13 +56,23 @@ async def reset_dut(dut):
     await ClockCycles(dut.clk, 1)
 
 
+# def cycle_trace(dut):
+#     top = dut.user_project
+#     return {
+#         "pe00": int(top.pe_data_00.value),
+#         "pe01": int(top.pe_data_01.value),
+#         "pe10": int(top.pe_data_10.value),
+#         "pe11": int(top.pe_data_11.value),
+#     }
+
+# Test new cycle_trace
 def cycle_trace(dut):
-    top = dut.user_project
+    bus = dut.user_project.pe_data_o_bus.value
     return {
-        "pe00": int(top.pe_data_00.value),
-        "pe01": int(top.pe_data_01.value),
-        "pe10": int(top.pe_data_10.value),
-        "pe11": int(top.pe_data_11.value),
+        "pe00": int(bus) & 0xFF,
+        "pe01": (int(bus) >> 8) & 0xFF,
+        "pe10": (int(bus) >> 16) & 0xFF,
+        "pe11": (int(bus) >> 24) & 0xFF,
     }
 
 
@@ -93,7 +102,7 @@ async def run_case(dut, case, boundary_value):
     for cycle_idx in range(case.cycles + 1):
         await ClockCycles(dut.clk, 1)
         # Change: replace dut with dut.user_project
-        trace = cycle_trace(dut.user_project)
+        trace = cycle_trace(dut)
         dut._log.info(f"{case.name}: cycle {cycle_idx} trace {trace}")
         if cycle_idx == 0:
             assert trace == {"pe00": 0, "pe01": 0, "pe10": 0, "pe11": 0}
