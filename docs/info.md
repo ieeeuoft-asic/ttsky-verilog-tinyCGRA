@@ -45,7 +45,7 @@ There are two main verification flows.
 The Tiny Tapeout top is verified with cocotb and a Python model:
 
 - `test/cgra_model.py`: software model, bitstream packing, and expected cycle traces
-- `test/test.py`: drives `tt_um_example` in `src/project.v`
+- `test/test.py`: drives `tt_um_tinycgra` in `src/project.v`
 - `test/tb.v`: Verilog wrapper for the Tiny Tapeout top
 
 This checks:
