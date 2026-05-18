@@ -6,7 +6,7 @@ See below to get started or for more information, check the [website](https://ti
 ## Setting up
 
 1. Edit [Makefile](Makefile) and modify `PROJECT_SOURCES` to point to your Verilog files.
-2. Edit [tb.v](tb.v) and replace `tt_um_tinycgra` with your module name.
+2. Verify [tb.v](tb.v) instantiates `tt_um_tinycgra` (already set for this project).
 
 ## How to run
 

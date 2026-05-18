@@ -27,7 +27,7 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
-  // Replace tt_um_tinycgra with your module name:
+  // Top module name for this project:
   tt_um_tinycgra user_project (
 
       // Include power ports for the Gate Level test:
